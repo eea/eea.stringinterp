@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0-dev0 - (unreleased)
+1.0 - (2021-05-28)
 -----------------------
 
 * Add 'Generic string substitution' adapter to easily grab properties from context
