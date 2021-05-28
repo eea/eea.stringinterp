@@ -53,9 +53,6 @@ class GenericContextAttributeSubstitution(BaseSubstitution):
             >>> substitute('effective')
             'Oct 10, 2021 12:00 AM'
 
-            >>> substitute('effective_date')
-            'Oct 10, 2021 12:00 AM'
-
             >>> substitute('Subject')
             'air, pollution'
 
