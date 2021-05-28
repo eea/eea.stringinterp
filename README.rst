@@ -8,17 +8,16 @@ eea.stringinterp
   :target: https://ci.eionet.europa.eu/job/eea/job/eea.stringinterp/job/master/display/redirect
   :alt: Master
 
-The eea.stringinterp is a Plone add-on
+Extends `plone.stringinterp <https://github.com/plone/plone.stringinterp>`_ functionallity with a 
+generic fallback string substitution adapter that lookup **context** properties if no explicit named
+**IStringSubstitution** is defined.
 
 .. contents::
-
 
 Main features
 =============
 
-1. Easy to install/uninstall via Site Setup > Add-ons
-2.
-3.
+1. **Generic string substitution** adapter to easily grab custom properties from context
 
 Install
 =======
@@ -40,6 +39,34 @@ Install
     $ docker run --rm -p 8080:8080 -e ADDONS="eea.stringinterp" plone
 
 * Install *eea.stringinterp* within Site Setup > Add-ons
+
+
+Usage
+=====
+
+* Via **Site Setup > Dexterity Content Types > Page > Fields Tab** add new Field, `e.g.: custom_field`
+* Via **Site Setup > Content Rules** add a rule to send email on Workflow change
+* Within **Message** add some `Custom: ${custom_field}`
+* Add new **Page** and fill the **custom_field**
+* Publish your **Page**
+* Check your email
+
+Code usage
+==========
+
+    >>> from plone.stringinterp.interfaces import IStringSubstitution
+    >>> substitute = IStringSubstitution(sandbox)
+    >>> substitute
+    <eea.stringinterp.adapters.GenericContextAttributeSubstitution object at...>
+
+    >>> substitute('title')
+    'Sandbox'
+
+    >>> substitute('effective')
+    'Oct 10, 2021 12:00 AM'
+
+    >>> substitute('Subject')
+    'air, pollution'
 
 
 Buildout installation

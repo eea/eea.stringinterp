@@ -17,7 +17,7 @@ def test_suite():
     suite.addTests([
         layered(
             doctest.DocFileSuite(
-                'README.txt',
+                'adapters/__init__.py',
                 optionflags=OPTIONFLAGS,
                 package='eea.stringinterp'),
             layer=FUNCTIONAL_TESTING),

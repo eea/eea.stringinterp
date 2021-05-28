@@ -4,5 +4,5 @@ Changelog
 1.0-dev0 - (unreleased)
 -----------------------
 
-* Initial release.
-  [eea]
+* Add 'Generic string substitution' adapter to easily grab properties from context
+  [avoinea - refs #134513]
