@@ -22,12 +22,13 @@ _marker = u'_bad_'
 
 @adapter(IContentish)
 class GenericContextAttributeSubstitution(BaseSubstitution):
-    """ Generic string substitution adapter to dynamically get attributes from context
+    """ Generic string substitution adapter to dynamically get
+        attributes from context
 
         >>> from plone.stringinterp.interfaces import IStringSubstitution
         >>> substitute = IStringSubstitution(sandbox)
         >>> substitute
-        <eea.stringinterp.adapters.GenericContextAttributeSubstitution object at...>
+        <eea.stringinterp.adapters.GenericContextAttributeSubstitution...>
 
     """
 
@@ -65,6 +66,8 @@ class GenericContextAttributeSubstitution(BaseSubstitution):
             return _(u'Unauthorized')
 
     def formatDate(self, adate):
+        """ Format date
+        """
         try:
             return safe_unicode(
                ulocalized_time(adate, long_format=True, context=self.context))
@@ -72,6 +75,8 @@ class GenericContextAttributeSubstitution(BaseSubstitution):
             return u'???'
 
     def safe_call(self, key):
+        """ Safe call
+        """
         res = getattr(aq_base(self.context), key, _marker)
         if callable(res):
             res = res()

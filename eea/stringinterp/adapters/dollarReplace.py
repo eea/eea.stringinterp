@@ -12,6 +12,8 @@ _marker = u'_bad_'
 
 
 class LazyDict(PloneLazyDict):
+    """ Lazy dict
+    """
     def __getitem__(self, key):
         if key and key[0] not in ['_', '.']:
             try:
@@ -19,9 +21,9 @@ class LazyDict(PloneLazyDict):
             except KeyError:
                 try:
                     # Use generic, IStringSubstitution adapter
-                    res = getAdapter(self.context, IStringSubstitution)(key=key)
+                    res = getAdapter(
+                        self.context, IStringSubstitution)(key=key)
                 except ComponentLookupError:
-                    import ipdb; ipdb.set_trace()
                     res = _marker
                 except Unauthorized:
                     res = u'Unauthorized'
@@ -35,5 +37,7 @@ class LazyDict(PloneLazyDict):
 
 
 class Interpolator(PloneInterpolator):
+    """ Custom Interpolator
+    """
     def __init__(self, context):
         self._ldict = LazyDict(context)
