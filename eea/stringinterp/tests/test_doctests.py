@@ -15,6 +15,8 @@ OPTIONFLAGS = (doctest.REPORT_ONLY_FIRST_FAILURE |
 
 
 class Py23DocChecker(doctest.OutputChecker):
+    """ Cross-Python checker
+    """
     def check_output(self, want, got, optionflags):
         if six.PY2:
             got = re.sub("u'(.*?)'", "'\\1'", got)
