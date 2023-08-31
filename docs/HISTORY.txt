@@ -3,6 +3,8 @@ Changelog
 
 1.1-dev0 - (unreleased)
 ---------------------------
+* remove python_requires from setup.py
+  [valipod - refs #161113]
 
 1.0 - (2021-05-28)
 -----------------------
