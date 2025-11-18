@@ -1,11 +1,12 @@
-""" Generic string substitution
+"""Generic string substitution
 
-    >>> portal = layer['portal']
-    >>> sandbox = portal._getOb('sandbox')
-    >>> sandbox.setEffectiveDate('2021/10/10')
-    >>> sandbox.setSubject((u'air', u'pollution'))
+>>> portal = layer['portal']
+>>> sandbox = portal._getOb('sandbox')
+>>> sandbox.setEffectiveDate('2021/10/10')
+>>> sandbox.setSubject((u'air', u'pollution'))
 
 """
+
 from AccessControl import Unauthorized
 from Acquisition import aq_base
 from DateTime import DateTime
@@ -17,75 +18,74 @@ from zope.component import adapter
 
 from eea.stringinterp import EEAMessageFactory as _
 
-_marker = u'_bad_'
+_marker = "_bad_"
 
 
 @adapter(IContentish)
 class GenericContextAttributeSubstitution(BaseSubstitution):
-    """ Generic string substitution adapter to dynamically get
-        attributes from context
+    """Generic string substitution adapter to dynamically get
+    attributes from context
 
-        >>> from plone.stringinterp.interfaces import IStringSubstitution
-        >>> substitute = IStringSubstitution(sandbox)
-        >>> substitute
-        <eea.stringinterp.adapters.GenericContextAttributeSubstitution...>
+    >>> from plone.stringinterp.interfaces import IStringSubstitution
+    >>> substitute = IStringSubstitution(sandbox)
+    >>> substitute
+    <eea.stringinterp.adapters.GenericContextAttributeSubstitution...>
 
     """
 
-    category = _(u'All Content')
-    description = _(u'Generic context attribute, e.g.: ${my_custom_field}')
+    category = _("All Content")
+    description = _("Generic context attribute, e.g.: ${my_custom_field}")
 
     def __call__(self, key=None):
-        """ Safe get attribute from context
+        """Safe get attribute from context
 
-            >>> substitute('title')
-            'Sandbox'
+        >>> substitute('title')
+        'Sandbox'
 
-            >>> substitute('Title')
-            'Sandbox'
+        >>> substitute('Title')
+        'Sandbox'
 
-            >>> substitute('acl_users')
-            '${acl_users}'
+        >>> substitute('acl_users')
+        '${acl_users}'
 
-            >>> substitute('password')
-            '${password}'
+        >>> substitute('password')
+        '${password}'
 
-            >>> substitute('effective')
-            'Oct 10, 2021 12:00 AM'
+        >>> substitute('effective')
+        'Oct 10, 2021 12:00 AM'
 
-            >>> substitute('Subject')
-            'air, pollution'
+        >>> substitute('Subject')
+        'air, pollution'
 
         """
         try:
             return safe_unicode(self.safe_call(key=key))
         except Unauthorized:
-            return _(u'Unauthorized')
+            return _("Unauthorized")
 
     def formatDate(self, adate):
-        """ Format date
-        """
+        """Format date"""
         try:
             return safe_unicode(
-               ulocalized_time(adate, long_format=True, context=self.context))
+                ulocalized_time(adate, long_format=True, context=self.context)
+            )
         except ValueError:
-            return u'???'
+            return "???"
 
     def safe_call(self, key):
-        """ Safe call
-        """
+        """Safe call"""
         res = getattr(aq_base(self.context), key, _marker)
         if callable(res):
             res = res()
 
         if not res:
-            return u''
+            return ""
 
         if res is _marker:
-            return u'${%s}' % (key)
+            return "${%s}" % (key)
 
         if isinstance(res, (tuple, list, set)):
-            return u', '.join(res)
+            return ", ".join(res)
 
         if isinstance(res, DateTime):
             return self.formatDate(res)
