@@ -29,11 +29,13 @@ class UnauthorizedAdapter:
 
     def __call__(self, key=None):
         from AccessControl import Unauthorized
+
         raise Unauthorized("Not allowed")
 
 
 class DummyContext:
     """Simple context for testing."""
+
     pass
 
 
@@ -102,15 +104,11 @@ class TestLazyDictUnnamedAdapter(unittest.TestCase):
 
     def setUp(self):
         self.sm = getGlobalSiteManager()
-        self.sm.registerAdapter(
-            SuccessAdapter, (Interface,), IStringSubstitution
-        )
+        self.sm.registerAdapter(SuccessAdapter, (Interface,), IStringSubstitution)
         self.ldict = LazyDict(DummyContext())
 
     def tearDown(self):
-        self.sm.unregisterAdapter(
-            SuccessAdapter, (Interface,), IStringSubstitution
-        )
+        self.sm.unregisterAdapter(SuccessAdapter, (Interface,), IStringSubstitution)
 
     def test_unnamed_adapter_fallback(self):
         """Test that fallback path with unnamed adapter returns value."""
@@ -123,9 +121,7 @@ class TestLazyDictUnauthorized(unittest.TestCase):
 
     def setUp(self):
         self.sm = getGlobalSiteManager()
-        self.sm.registerAdapter(
-            UnauthorizedAdapter, (Interface,), IStringSubstitution
-        )
+        self.sm.registerAdapter(UnauthorizedAdapter, (Interface,), IStringSubstitution)
         self.ldict = LazyDict(DummyContext())
 
     def tearDown(self):
@@ -144,15 +140,11 @@ class TestLazyDictCaching(unittest.TestCase):
 
     def setUp(self):
         self.sm = getGlobalSiteManager()
-        self.sm.registerAdapter(
-            SuccessAdapter, (Interface,), IStringSubstitution
-        )
+        self.sm.registerAdapter(SuccessAdapter, (Interface,), IStringSubstitution)
         self.ldict = LazyDict(DummyContext())
 
     def tearDown(self):
-        self.sm.unregisterAdapter(
-            SuccessAdapter, (Interface,), IStringSubstitution
-        )
+        self.sm.unregisterAdapter(SuccessAdapter, (Interface,), IStringSubstitution)
 
     def test_result_is_cached(self):
         """Test that result is cached in _cache."""
