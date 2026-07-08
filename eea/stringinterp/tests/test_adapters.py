@@ -6,7 +6,7 @@ from zope.interface import Interface, implementer
 from zope.component import getGlobalSiteManager
 
 from plone.stringinterp.interfaces import IStringSubstitution
-from eea.stringinterp.adapters.dollarReplace import LazyDict, _marker
+from eea.stringinterp.adapters.dollarReplace import LazyDict
 
 
 @implementer(IStringSubstitution)
