@@ -16,8 +16,10 @@ class EeaStringinterpLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         import plone.app.dexterity
+
         self.loadZCML(package=plone.app.dexterity)
         import plone.stringinterp
+
         self.loadZCML(package=plone.stringinterp)
         self.loadZCML(package=eea.stringinterp)
 
